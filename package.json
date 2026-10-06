@@ -1,0 +1,66 @@
+{
+  "name": "dsh-docx-export",
+  "version": "1.0.0",
+  "description": "Export generated text to a real Word document (.docx) from any DSH session: a zero-dependency Host plugin that registers the export_docx tool and converts Markdown into native Word styles, numbering, tables and pictures.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "bin": {
+    "dsh-docx-export": "./bin/docx-export.mjs"
+  },
+  "icon": "./icon.svg",
+  "files": [
+    "index.js",
+    "lib",
+    "bin",
+    "locale",
+    "scripts",
+    "docs",
+    "examples",
+    "test",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh-CN.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "docx",
+    "word",
+    "export",
+    "markdown",
+    "office",
+    "ooxml"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cai-Chengyu/dsh-docx-export.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Cai-Chengyu/dsh-docx-export/issues"
+  },
+  "homepage": "https://github.com/Cai-Chengyu/dsh-docx-export#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "check": "node --check index.js && node --check lib/docx.js && node --check lib/markdown.js && node --check lib/zip.js && node --check bin/docx-export.mjs",
+    "demo": "node bin/docx-export.mjs examples/sample.md examples/sample.docx"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

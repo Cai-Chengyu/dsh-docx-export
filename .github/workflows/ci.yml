@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [20, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Syntax check
+        run: |
+          node --check index.js
+          node --check lib/docx.js
+          node --check lib/markdown.js
+          node --check lib/zip.js
+          node --check bin/docx-export.mjs
+      - name: Unit tests
+        run: node --test test/
+      - name: End-to-end CLI run
+        run: node bin/docx-export.mjs examples/sample.md -o examples/ci.docx --toc --title "CI"
+      - name: Inspect the produced package
+        run: node -e "const fs=require('node:fs');const b=fs.readFileSync('examples/ci.docx');if(b.subarray(0,2).toString()!=='PK')throw new Error('not a ZIP');if(b.length<3000)throw new Error('suspiciously small: '+b.length);console.log('docx bytes:',b.length)"
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Manifest sanity
+        run: |
+          node -e "
+          const pkg = require('./package.json');
+          const required = ['name','version','description','license','exports','dsh'];
+          for (const key of required) if (!pkg[key]) throw new Error('missing ' + key);
+          if (!pkg.dsh.bundle || !pkg.dsh.bundle.patch) throw new Error('missing dsh.bundle.patch');
+          if (require('node:fs').existsSync(pkg.dsh.bundle.patch) === false) throw new Error('patch file missing');
+          console.log('manifest ok:', pkg.name + '@' + pkg.version);
+          "
+      - name: Dry-run pack
+        run: npm pack --dry-run

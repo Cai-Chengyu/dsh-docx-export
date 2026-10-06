@@ -1,0 +1,4 @@
+{
+  "title": "Word 导出",
+  "description": "把生成的文本导出为 Word .docx 文档（export_docx 工具）。"
+}

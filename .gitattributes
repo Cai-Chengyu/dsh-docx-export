@@ -1,0 +1,8 @@
+# Keep the repository's line endings stable so the shell installer keeps
+# working when it is cloned on macOS or Linux from a Windows checkout.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.docx binary
+*.ico binary
+*.tgz binary

@@ -1,0 +1,4 @@
+{
+  "title": "Word Export",
+  "description": "Export generated text as a Word .docx document (export_docx tool)."
+}

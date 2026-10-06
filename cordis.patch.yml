@@ -1,0 +1,6 @@
+# dsh bundle layer: mount the docx-export plugin (index.js via the package root
+# export). Installed as a bundle, so profile installs pick this row up without
+# any hand-written mount line.
+- insert:
+    - id: docx-export
+      name: 'dsh-docx-export'

@@ -1,0 +1,17 @@
+# Build output and editor noise
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# Generated documents and renderings
+*.docx
+!examples/*.docx
+.render-*/
+preview-v*/
+*.pdf
+
+# Local scratch
+.scratch/
+scratch/
+*.tgz
